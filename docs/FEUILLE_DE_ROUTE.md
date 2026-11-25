@@ -1,3 +1,14 @@
+# MAJ 34 — Première recette Samsung et CI navigateur
+
+**25/11/2026 — prototype V0.29 inchangé.**
+
+- Retour utilisateur « C'est tout bon go » après ouverture HTTPS, diagnostic, test court et lecture/téléchargement vidéo sur Samsung. Ces opérations sont validées par l'utilisateur ; rapport JSON et fichier MP4 non reçus, résolution et cadence non mesurées indépendamment. Ne pas recommencer ce test court sans motif.
+- CI statique 45565369199 et Pages 45565367953 verts.
+- Workflow navigateur `.github/workflows/browser-validation.yml` ajouté au commit `24896f4409ae9de97b50498e45774734a95ce337` : chargement Chromium desktop/mobile et WebKit mobile émulé, erreurs JS, canvas, stockage temporaire, PNG, relevé capacités codec. Résultats à vérifier ; ne remplace pas les appareils physiques ni le montage MP4 réel.
+- Recette Samsung restante à regrouper : montage fictif avec deux joueurs, export MP4 complet (720p puis 1080p), PNG, sauvegarde/restauration JSON et persistance après fermeture. Windows/iPhone ensuite. Ne pas utiliser les données réelles ; graphismes, animation et son inchangés. Aucun GO intermédiaire.
+
+---
+
 # MAJ 33 — Déploiement de validation réussi
 
 **25/11/2026 — V0.29 inchangée.**
