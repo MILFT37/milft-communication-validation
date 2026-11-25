@@ -1,3 +1,14 @@
+# MILFT Communication — MAJ 31
+
+**25/11/2026 — validation distincte uniquement ; V0.29 inchangée.**
+
+- Workflow `.github/workflows/validation.yml` installé au commit `6f6561190a14a792e15ee35a6874f06ab0e3ae0f`. Contrôle structure HTML/canvas, présence VideoEncoder/VideoFrame/localStorage, syntaxe Node de tous les scripts JavaScript intégrés détectés.
+- Première exécution [45564440703](https://github.com/MILFT37/milft-communication-validation/actions/runs/45564440703), job 139035697250 : toutes les étapes terminées avec succès. Contrôle statique seulement ; aucun test natif MP4, stockage réel ou appareil effectué.
+- Métadonnées GitHub : dépôt public, branche main, Pages non activé (has_pages=false). Le connecteur ne fournit pas d'action d'activation Pages ; endpoint de lecture Pages non autorisé. Intervention indispensable : dans Settings > Pages, sélectionner Deploy from a branch, main, /(root), Save. Hébergement de validation déjà autorisé, pas de production.
+- Suite : vérifier déploiement HTTPS et accès au prototype puis recette groupée Samsung, avant Windows/iPhone. Aucun nouveau GO développement. Ne pas entrer de données réelles ; animation et son reportés. Ne pas toucher aux autres dépôts.
+
+---
+
 # MILFT Communication — Reprise MAJ 30
 
 **25/11/2026 — validation uniquement ; prototype V0.29 inchangé.**
