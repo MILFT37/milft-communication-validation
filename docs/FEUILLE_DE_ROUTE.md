@@ -1,3 +1,13 @@
+# MAJ 35 — Correction de l'environnement CI navigateur
+
+**25/11/2026 — V0.29 inchangée.**
+
+- Exécution navigateur 45565684728 : échec avant recette, à l'installation Playwright 1.56.1 incompatible avec Ubuntu 26.04 sélectionné par ubuntu-latest (journal job 139039764874). Aucun défaut applicatif démontré.
+- Correction ciblée : ubuntu-24.04, commit 7c7c0548f758914ca8af781e2a0374b1316a6b05. Nouvelle exécution à vérifier. État au dernier contrôle : [{"name":"Recette navigateurs MILFT Communication","id":45566686125,"status":"in_progress","conclusion":null},{"name":"Validation MILFT Communication","id":45566686090,"status":"in_progress","conclusion":null},{"name":"pages build and deployment","id":45566685953,"status":"in_progress","conclusion":null},{"name":"Validation MILFT Communication","id":45565705594,"status":"completed","conclusion":"success"},{"name":"pages build and deployment","id":45565705593,"status":"completed","conclusion":"success"}].
+- Recette Samsung courte déjà validée, ne pas la recommencer. Recette complète groupée : deux joueurs fictifs, export qualité MP4 720p puis 1080p, lecture/téléchargement, PNG, sauvegarde/restauration et persistance après fermeture. Aucun GO intermédiaire. Pas de données réelles ni production.
+
+---
+
 # MAJ 34 — Première recette Samsung et CI navigateur
 
 **25/11/2026 — prototype V0.29 inchangé.**
