@@ -1,3 +1,13 @@
+# MAJ 33 — Déploiement de validation réussi
+
+**25/11/2026 — V0.29 inchangée.**
+
+- Déploiement GitHub Pages [45564956466](https://github.com/MILFT37/milft-communication-validation/actions/runs/45564956466) terminé avec succès : build, deploy, report-build-status verts ; premier déploiement remplacé par celui-ci. CI [45564956513](https://github.com/MILFT37/milft-communication-validation/actions/runs/45564956513) verte.
+- Adresse de validation : https://milft37.github.io/milft-communication-validation/ . Ouverture directe non accessible depuis l'outil web de la session ; chargement sur Samsung restant à vérifier. Aucun changement du HTML ni publication de production.
+- Intervention nécessaire : ouvrir l'adresse dans Chrome sur Samsung, lancer le diagnostic local puis le test vidéo court MP4, contrôler lecture et téléchargement, transmettre résultats/capture. Ensuite montage fictif et recette groupée ; Windows/iPhone à suivre. Ne pas redemander de GO entre étapes autonomes. Retour utilisateur : « Trop de go ».
+
+---
+
 # MAJ 32 — Activation de l’hébergement de validation
 
 **25/11/2026 — V0.29 inchangée.**
