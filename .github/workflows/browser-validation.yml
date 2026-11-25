@@ -1,0 +1,79 @@
+name: Recette navigateurs MILFT Communication
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - .github/workflows/browser-validation.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Installer les navigateurs de test
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium webkit
+      - name: Recette de chargement et de compatibilité navigateur
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const http = require('node:http');
+          const fs = require('node:fs');
+          const { chromium, webkit, devices } = require('playwright');
+          const html = fs.readFileSync('index.html');
+          const server = http.createServer((req, res) => {
+            if (req.url === '/') {
+              res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+              res.end(html);
+            } else { res.writeHead(404); res.end(); }
+          });
+          (async () => {
+            await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+            const url = 'http://127.0.0.1:' + server.address().port + '/';
+            let failures = 0;
+            for (const [name, engine, options] of [
+              ['Chromium desktop', chromium, {viewport:{width:1280,height:800}}],
+              ['Chromium mobile emule', chromium, devices['Pixel 7']],
+              ['WebKit mobile emule', webkit, devices['iPhone 13']]
+            ]) {
+              let browser;
+              try {
+                browser = await engine.launch();
+                const context = await browser.newContext(options);
+                const page = await context.newPage();
+                const errors = [];
+                page.on('pageerror', e => errors.push(String(e)));
+                const response = await page.goto(url, {waitUntil:'load'});
+                assert.equal(response.status(), 200);
+                await page.waitForFunction(() => [...document.querySelectorAll('canvas')].some(c=>c.width>0 && c.height>0));
+                const result = await page.evaluate(() => {
+                  const key='milft-ci-probe-'+Math.random();
+                  let storage=false;
+                  try { localStorage.setItem(key,'ok'); storage=localStorage.getItem(key)==='ok'; }
+                  finally { localStorage.removeItem(key); }
+                  const c=document.createElement('canvas'); c.width=2; c.height=2;
+                  c.getContext('2d').fillRect(0,0,2,2);
+                  return {secure:isSecureContext,storage,png:c.toDataURL('image/png').startsWith('data:image/png;'),webCodecs:typeof VideoEncoder==='function',mediaRecorder:typeof MediaRecorder==='function',canvasCount:document.querySelectorAll('canvas').length};
+                });
+                await page.waitForTimeout(500);
+                assert.equal(result.secure,true);
+                assert.equal(result.storage,true);
+                assert.equal(result.png,true);
+                assert.deepEqual(errors,[]);
+                console.log(name, JSON.stringify(result));
+                await context.close();
+              } catch(e) { failures++; console.error(name, e); }
+              finally { if(browser) await browser.close(); }
+            }
+            assert.equal(failures,0);
+          })().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>server.close());
+          NODE
+          echo "Navigateurs Linux emules uniquement : ne valide pas Windows, Samsung ou iPhone reels, ni export MP4 natif."
