@@ -1,3 +1,13 @@
+# MAJ 32 — Activation de l’hébergement de validation
+
+**25/11/2026 — V0.29 inchangée.**
+
+- Activation GitHub Pages réalisée par l'utilisateur depuis Samsung : métadonnée `has_pages=true` confirmée. Deux exécutions CI statique réussies (45564440703 et 45564509211).
+- Premier déploiement [45564874642](https://github.com/MILFT37/milft-communication-validation/actions/runs/45564874642) déclenché ; compilation Jekyll en cours au dernier contrôle. URL HTTPS attendue : https://milft37.github.io/milft-communication-validation/ ; accès direct non vérifiable via l'outil web à ce stade. Ne pas déclarer le déploiement réussi avant confirmation.
+- Aucune modification du prototype. Pas de production. Suite : vérifier la fin du déploiement puis recette groupée Samsung (diagnostic, test court, montage fictif), Windows et iPhone. Aucun GO développement requis ; intervention appareil seulement après disponibilité du site.
+
+---
+
 # MILFT Communication — MAJ 31
 
 **25/11/2026 — validation distincte uniquement ; V0.29 inchangée.**
