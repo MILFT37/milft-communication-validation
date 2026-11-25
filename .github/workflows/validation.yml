@@ -1,0 +1,48 @@
+name: Validation MILFT Communication
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier le prototype HTML et la syntaxe JavaScript
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const os = require('node:os');
+          const path = require('node:path');
+          const assert = require('node:assert/strict');
+          const { execFileSync } = require('node:child_process');
+          const html = fs.readFileSync('index.html', 'utf8');
+          assert.match(html, /<html\b/i);
+          assert.match(html, /<\/html\s*>/i);
+          assert.match(html, /<canvas\b/i);
+          assert.ok(html.includes('VideoEncoder'), 'WebCodecs VideoEncoder absent');
+          assert.ok(html.includes('VideoFrame'), 'WebCodecs VideoFrame absent');
+          assert.ok(html.includes('localStorage'), 'Stockage local absent');
+          const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'milft-ci-'));
+          let n = 0;
+          try {
+            for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
+              const attrs = match[1];
+              if (/\bsrc\s*=/i.test(attrs)) continue;
+              const type = /\btype\s*=\s*["']([^"']+)["']/i.exec(attrs)?.[1];
+              if (type && !/^(module|(?:text|application)\/(?:java|ecma)script)$/i.test(type)) continue;
+              const f = path.join(dir, 'script-' + (++n) + (type === 'module' ? '.mjs' : '.js'));
+              fs.writeFileSync(f, match[2]);
+              execFileSync(process.execPath, ['--check', f], {stdio:'inherit'});
+            }
+            assert.ok(n > 0, 'Aucun script JavaScript intégré trouvé');
+            console.log('Syntaxe OK : ' + n + ' script(s) ; ' + Buffer.byteLength(html) + ' octets.');
+            console.log('Contrôle statique uniquement : ni export MP4 natif, ni persistance, ni recette appareil.');
+          } finally {
+            fs.rmSync(dir, {recursive:true, force:true});
+          }
+          NODE
